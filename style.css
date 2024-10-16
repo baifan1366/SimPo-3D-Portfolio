@@ -387,8 +387,9 @@ svg{
 }
 
 .skill:hover {
-  background-color: var(--color-pink-dark);
-  color:  var(--color-text);
+  background-color: transparent;
+  outline: 2px solid var(--color-pink-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero section -------------------------------- */
