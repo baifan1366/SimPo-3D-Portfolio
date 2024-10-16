@@ -1,33 +1,41 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// 注册ScrollTrigger插件
 gsap.registerPlugin(ScrollTrigger);
 
-// 页面加载动画
-window.addEventListener("load", () => {
-  gsap.from(".hero-main-title, .hero-main-description", {
-    duration: 1,
-    opacity: 0,
-    y: -50,
-    stagger: 0.2
-  });
-});
+export function initializeAnimations() {
+    // 页面加载动画
+    gsap.from(".hero-main-title, .hero-main-description", {
+        duration: 1,
+        opacity: 0,
+        y: -50,
+        stagger: 0.2
+    });
 
-// SVG 动画
-gsap.from(".back-to-top-icon", {
-  duration: 1,
-  rotation: 360,
-  transformOrigin: "center",
-  repeat: -1,
-  ease: "linear",
-  paused: true
-});
+    // SVG 动画
+    const backToTopIcon = gsap.to(".back-to-top-icon", {
+        duration: 1,
+        rotation: 360,
+        transformOrigin: "center",
+        repeat: -1,
+        ease: "linear",
+        paused: true
+    });
 
-document.querySelector(".back-to-top").addEventListener("mouseenter", function() {
-  gsap.to(".back-to-top-icon", { rotation: 0 }).play();
-});
+    const backToTopButton = document.querySelector(".back-to-top");
+    backToTopButton.addEventListener("mouseenter", () => backToTopIcon.play());
+    backToTopButton.addEventListener("mouseleave", () => backToTopIcon.reverse());
 
-document.querySelector(".back-to-top").addEventListener("mouseleave", function() {
-  gsap.to(".back-to-top-icon", { rotation: 360 }).reverse();
-});
+    // 清理函数
+    return () => {
+        backToTopIcon.kill();
+        backToTopButton.removeEventListener("mouseenter", backToTopIcon.play);
+        backToTopButton.removeEventListener("mouseleave", backToTopIcon.reverse);
+    };
+}
+
+// 在主应用文件中使用
+// const cleanupAnimations = initializeAnimations();
+// 
+// // 在组件卸载或页面关闭时调用
+// cleanupAnimations();

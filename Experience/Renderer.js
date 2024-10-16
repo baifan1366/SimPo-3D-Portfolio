@@ -13,9 +13,23 @@ export default class Renderer {
     }
 
     setRenderer() {
+        let context;
+        try {
+            context = this.canvas.getContext('webgl2', { alpha: false });
+            if (!context) {
+                console.warn('WebGL 2 not available, falling back to WebGL 1');
+                context = this.canvas.getContext('webgl', { alpha: false });
+            }
+        } catch (e) {
+            console.error('WebGL not supported', e);
+            // Handle the error, e.g., display a friendly error message to the user
+        }
+    
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
+            powerPreference: "high-performance",
+            context: context
         });
 
         this.renderer.physicallyCorrectLights = true;

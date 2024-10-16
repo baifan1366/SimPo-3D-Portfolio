@@ -22,6 +22,10 @@ export default class Preloader extends EventEmitter {
             this.setAssets();
             this.playIntro();
         });
+
+        // Use GSAP ticker for efficient updates
+        GSAP.ticker.add(this.update.bind(this));
+        GSAP.ticker.fps(60);
     }
 
     setAssets() {
@@ -367,9 +371,9 @@ export default class Preloader extends EventEmitter {
         this.scrollOnceEvent = this.onScroll.bind(this);
         this.touchStart = this.onTouch.bind(this);
         this.touchMove = this.onTouchMove.bind(this);
-        window.addEventListener("wheel", this.scrollOnceEvent);
-        window.addEventListener("touchstart", this.touchStart);
-        window.addEventListener("touchmove", this.touchMove);
+        window.addEventListener("wheel", this.scrollOnceEvent, { passive: true });
+        window.addEventListener("touchstart", this.touchStart, { passive: true });
+        window.addEventListener("touchmove", this.touchMove, { passive: true });
     }
     async playSecondIntro() {
         this.moveFlag = false;
@@ -405,5 +409,10 @@ export default class Preloader extends EventEmitter {
         if (this.scaleFlag) {
             this.scale();
         }
+    }
+
+    destroy() {
+        GSAP.ticker.remove(this.update);
+        this.removeEventListeners();
     }
 }

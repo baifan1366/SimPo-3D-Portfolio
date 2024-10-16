@@ -79,12 +79,10 @@ export default class Camera {
     }
 
     update() {
-        // console.log(this.perspectiveCamera.position);
         this.controls.update();
+    }
 
-        // this.helper.matrixWorldNeedsUpdate = true;
-        // this.helper.update();
-        // this.helper.position.copy(this.orthographicCamera.position);
-        // this.helper.rotation.copy(this.orthographicCamera.rotation);
+    destroy() {
+        this.controls.dispose();
     }
 }

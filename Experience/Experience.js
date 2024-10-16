@@ -31,16 +31,17 @@ export default class Experience {
         this.world = new World();
         this.preloader = new Preloader();
 
-        this.preloader.on("enablecontrols", () => {
-            this.controls = new Controls();
-        });
+        this.setupEventListeners();
+    }
 
-        this.sizes.on("resize", () => {
-            this.resize();
-        });
-        this.time.on("update", () => {
-            this.update();
-        });
+    setupEventListeners() {
+        this.preloader.on("enablecontrols", this.enableControls.bind(this));
+        this.sizes.on("resize", this.resize.bind(this));
+        this.time.on("update", this.update.bind(this));
+    }
+
+    enableControls() {
+        this.controls = new Controls();
     }
 
     resize() {
@@ -57,5 +58,34 @@ export default class Experience {
         if (this.controls) {
             this.controls.update();
         }
+    }
+
+    destroy() {
+        // 停止更新循环
+        this.time.stop();
+
+        // 销毁各个组件
+        if (this.controls) {
+            this.controls.destroy();
+        }
+        this.preloader.destroy();
+        this.preloader.off("enablecontrols");
+        //this.world.destroy(); // 假设 World 类也有一个 destroy 方法
+        this.camera.destroy();
+        //this.renderer.destroy(); // 假设 Renderer 类有一个 destroy 方法
+        this.theme.destroy();
+
+        // 清理 Three.js 场景
+        this.scene.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+                child.geometry.dispose();
+                child.material.dispose();
+            }
+        });
+        this.scene.clear();
+
+        this.sizes.off("resize");
+        this.time.off("update");
+        Experience.instance = null;
     }
 }
