@@ -118,7 +118,8 @@ export default class Preloader extends EventEmitter {
     secondIntro() {
         return new Promise((resolve) => {
             this.secondTimeline = new GSAP.timeline();
-
+            console.log(this.roomChildren);
+            
             this.secondTimeline
                 .to(
                     ".intro-text .animatedis",
