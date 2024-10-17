@@ -82,6 +82,15 @@ export default class Preloader extends EventEmitter {
                         duration: 0.7,
                     });
             }
+            this.timeline.to(this.roomChildren.cube.rotation, {
+                y: Math.PI * 1.75, // 旋转一周
+                duration: 2, // 旋转持续时间
+                ease: "power1.inOut", // 缓动函数
+                repeat: -1, // 无限重复
+                repeatDelay: 2,
+                yoyo: true, // 来回旋转
+            }, "-=0.7");
+
             this.timeline
                 .to(".intro-text .animatedis", {
                     yPercent: 0,

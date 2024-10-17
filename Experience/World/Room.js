@@ -31,13 +31,12 @@ export default class Room {
 
             if (child instanceof THREE.Group) {
                 child.children.forEach((groupchild) => {
-                    console.log(groupchild.material);
                     groupchild.castShadow = true;
                     groupchild.receiveShadow = true;
                 });
             }
 
-            // console.log(child);
+            console.log(child);
 
             if (child.name === "Aquarium") {
                 // console.log(child);

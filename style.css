@@ -320,7 +320,8 @@ svg{
 /* Fancy Decoration Part of Section */
 .section-title{
   position: relative;
-  color: var(--color-pink)
+  color: var(--color-pink);
+  animation: fadeInUp 1s ease-out;
 }
 
 .section-title-text{
