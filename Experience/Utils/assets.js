@@ -7,6 +7,6 @@ export default [
     {
         name: "screen",
         type: "videoTexture",
-        path: "/textures/kda.mp4",
+        path: "/textures/screenVideo.mp4",
     },
 ];
